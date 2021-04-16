@@ -16,5 +16,5 @@ def count_nucleotides(dna_seq):
         if nuc in nuc_count:
             nuc_count[nuc] += 1
         else:
-            nuc_count[nuc] = 0
+            nuc_count[nuc] = 1
     return nuc_count
