@@ -1,6 +1,6 @@
-from structures import nucleotides, dna_reverse_compliment
-from utilities import colored
-
+from structures import (
+    nucleotides, dna_reverse_compliment, dna_codons)
+from collections import Counter
 
 def validate_sequence(dna_seq):
     temp_seq = dna_seq.upper()
@@ -42,6 +42,7 @@ def gc_content(seq):
     """GC Content in a DNA/RNA sequence"""
     return round((seq.count('C') + seq.count('G')) / len(seq) * 100)
 
+
 def gc_content_subsection(seq, k=20):
     """GC Content in subsection of DNA/RNA Sequences"""
 
@@ -50,3 +51,29 @@ def gc_content_subsection(seq, k=20):
         subseq = seq[i:i+k]
         res.append(gc_content(subseq))
     return res
+
+
+def translate_seq(seq, init_pos=0):
+    """
+    Translates a DNA sequence into an aminoacid sequence
+    """
+    return [dna_codons[seq[pos:pos + 3]] for pos in range(init_pos, len(seq)-2, 3)]
+
+
+def codon_usage(seq, aminoacid):
+    """
+    Provides the frequency of each codon encoding a given aminoacid in a DNA sequence
+    """
+    tmp_list = []
+
+    for i in range(0, len(seq)-2, 3):
+        if dna_codons[seq[i:i+3]] == aminoacid:
+            tmp_list.append(seq[i:i+3])
+
+    freq_dict = dict(Counter(tmp_list))
+    total_weight = sum(freq_dict.values())
+
+    for seq in freq_dict:
+        freq_dict[seq] = round(freq_dict[seq] / total_weight, 2)
+
+    return freq_dict
