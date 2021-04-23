@@ -12,7 +12,7 @@ def gc_content(seq):
         ((seq.count('C') + seq.count('G')) / len(seq) * 100), 6)
 
 
-#== Read data from file (FASTA formated file) ==#
+#==== Read data from file (FASTA formated file) ====#
 fasta_file = read_file("test_data/gc_content.txt")
 
 # Dictionary for Labels + Data
@@ -20,7 +20,7 @@ fasta_dict = {}
 # String holing the current label
 fasta_label = ""
 
-# == Clean & Prepare the data (Format for ease of use with our gc_content fn)
+#==== Clean & Prepare the data (Format for ease of use with our gc_content fn) ====#
 # Converting FAFSTA file into a dictionary
 for line in fasta_file:
     if '>' in line:
@@ -29,13 +29,12 @@ for line in fasta_file:
     else:
         fasta_dict[fasta_label] += line
 
-# == Format the data (Store the data in a convenient way)
-# == Run need operations on data (Pass data into gc_content fn)
+#==== Format the data (Store the data in a convenient way) ====#
+#==== Run need operations on data (Pass data into gc_content fn) ====#
 # Using dictionary comprehension generate a new dict with results
 result_dict = {key: gc_content(value) for (key, value) in fasta_dict.items()}
 
 max_gc_key = max(result_dict, key=result_dict.get)
 
-# == Collect results
-
+#==== Collect results ====#
 print(f'{max_gc_key}\n{result_dict[max_gc_key]}')

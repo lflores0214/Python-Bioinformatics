@@ -1,6 +1,7 @@
-from structures import (
+from dna_toolset.structures import (
     nucleotides, dna_reverse_compliment, dna_codons)
 from collections import Counter
+
 
 def validate_sequence(dna_seq):
     temp_seq = dna_seq.upper()
@@ -77,3 +78,40 @@ def codon_usage(seq, aminoacid):
         freq_dict[seq] = round(freq_dict[seq] / total_weight, 2)
 
     return freq_dict
+
+
+def gen_reading_frames(seq):
+    """
+    Generate the six reading frames of a DNA sequence, including the reverse compliment
+    """
+    frames = []
+    frames.append(translate_seq(seq, 0))
+    frames.append(translate_seq(seq, 1))
+    frames.append(translate_seq(seq, 2))
+    frames.append(translate_seq(reverse_compliment(seq), 0))
+    frames.append(translate_seq(reverse_compliment(seq), 1))
+    frames.append(translate_seq(reverse_compliment(seq), 2))
+    return frames
+
+
+def proteins_from_rf(aa_seq):
+    """
+    Compute all possible proteins in an amino acid sequence.
+    Returns a list of all possible proteins.
+    """
+    current_prot = []
+    proteins = []
+    for aa in aa_seq:
+        if aa == '_':
+            # Stop accumulating amino acids if _ (stop) was found
+            if current_prot:
+                for p in current_prot:
+                    proteins.append(p)
+                current_prot = []
+        else:
+            # Start accumulating amino acids if "M" (start) was found
+            if aa == "M":
+                current_prot.append(aa)
+            for i in range(len(current_prot)):
+                current_prot[i] += aa
+    return proteins
