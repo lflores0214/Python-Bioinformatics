@@ -1,8 +1,9 @@
 # DNA Toolkit/Code testing file
-from dna_toolkit import (transcription, nucleotides, validate_sequence,
-                         count_nucleotides, reverse_compliment, gc_content, gc_content_subsection,
-                         translate_seq, codon_usage)
-from utilities import colored
+from dna_toolset.dna_toolkit import (transcription, validate_sequence,
+                                     count_nucleotides, reverse_compliment, gc_content, gc_content_subsection,
+                                     translate_seq, codon_usage, gen_reading_frames)
+from dna_toolset.structures import nucleotides
+from dna_toolset.utilities import colored
 import random
 
 dna_str = ''.join([random.choice(nucleotides)
@@ -24,3 +25,6 @@ print(
     f"[6] + GC Content in subsection k=5 : {gc_content_subsection(DNA_STR, k=5)}\n")
 print(f"[7] + Aminoacids Sequence from DNA:{translate_seq(DNA_STR, 0)}\n")
 print(f"[8] + Codon Frequency (L): {codon_usage(DNA_STR, 'L')}\n")
+print(f"[9] + Reading Frames:")
+for frame in gen_reading_frames(DNA_STR):
+    print(frame)
