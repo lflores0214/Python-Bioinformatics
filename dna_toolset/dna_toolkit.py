@@ -117,10 +117,6 @@ def proteins_from_rf(aa_seq):
     return proteins
 
 
-# Generate all reading frames (RF)
-# Extract all proteins
-# return a list sorted/unsorted
-
 def all_proteins_from_orfs(seq,
                            start_read_pos=0,
                            end_read_pos=0,
